@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        canvas {
-            border: 1px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <p>Hello World</p>
+    <label for="gridWidth">Grid width:</label>
+    <input type="number" id="gridWidth" value="450">
+    <label for="gridHeight">Grid height:</label>
+    <input type="number" id="gridHeight" value="450">
+    <br>
+    <label for="offToOn">Off to On:</label>
+    <input type="text" id="offToOn" value="3">
+    <label for="onToOff">On to Off:</label>
+    <input type="text" id="onToOff" value="0-1,4-8">
+    <br>
+    <button id="pauseButton" class="symbolButton">&#x23F8;</button>
+    <button id="speedButton1" class="symbolButton">&#x23F5;</button>
+    <button id="speedButton2" class="symbolButton">&#x23F5;&#x23F5;</button>
+    <button id="speedButton3" class="symbolButton">&#x23F5;&#x23F5;&#x23F5;</button>
+    <button id="resetButton">reset</button>
+    <br>
     <canvas id="canvas" width=450 height=450></canvas>
-	<script src="grid.js"></script>
+    <script src="grid.js"></script>
 </body>
 </html>

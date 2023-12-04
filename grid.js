@@ -1,12 +1,28 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const pauseButton = document.getElementById("pauseButton");
+const speedButton1 = document.getElementById("speedButton1");
+const speedButton2 = document.getElementById("speedButton2");
+const speedButton3 = document.getElementById("speedButton3");
+const resetButton = document.getElementById("resetButton");
+const widthInput = document.getElementById("gridWidth");
+const heightInput = document.getElementById("gridHeight");
+const offToOn = document.getElementById("offToOn");
+const onToOff = document.getElementById("onToOff");
 const cellSize = 3;
-const width = canvas.width/cellSize;
-const height = canvas.height/cellSize;
+var width = 0;
+var height = 0;
 var cells = [];
 var nextCells = [];
+var intervalID = 0;
 
 function load() {
+	cells = [];
+	width = Math.floor(widthInput.value / cellSize);
+	height = Math.floor(heightInput.value / cellSize);
+	canvas.setAttribute("width", widthInput.value - widthInput.value%3);
+	canvas.setAttribute("height", heightInput.value - heightInput.value%3);
+	console.log(width);
 	for (let i = 0; i < width; i++) {
 		cells.push([]);
 		for (let j = 0; j < height; j++) {
@@ -52,22 +68,29 @@ function neighborCount(x, y, target) {
 	return total;
 }
 
+function changeState(x, y, state, rule) {
+	let rule0To1 = rule[0][0].split(",");
+	let rule1To0 = rule[1][0].split(",");
+	if (state == 0) {
+		for (let i = 0; i < rule0To1.length; i++) {
+			if (neighborCount(x, y, 1) == rule0To1[i]) {
+				return 1;
+			}
+		}
+	} else if (state == 1) {
+		for (let i = 0; i < rule1To0.length; i++) {
+			if (neighborCount(x, y, 1) == rule1To0[i]) {
+				return 0;
+			}
+		}
+	}
+	return state;
+}
+
 function update() {
 	for (let i = 0; i < width; i++) {
 		for (let j = 0; j < height; j++) {
-			if (cells[i][j] == 1) {
-				if (neighborCount(i, j, 1) == 3 || neighborCount(i, j, 1) == 2) {
-					nextCells[i][j] = 1;
-				} else {
-					nextCells[i][j] = 0;
-				}
-			} else {
-				if (neighborCount(i, j, 1) == 3) {
-					nextCells[i][j] = 1;
-				} else {
-					nextCells[i][j] = 0;
-				}
-			}
+			nextCells[i][j] = changeState(i, j, cells[i][j], [["3"], ["0,1,4,5,6,7,8"]]);
 		}
 	}
 
@@ -92,6 +115,15 @@ function draw() {
 	}
 }
 
+function setSpeed(speed) {
+	if (intervalID != 0) {
+		clearInterval(intervalID);
+	}
+	if (speed != 0) {
+		intervalID = setInterval(run, speed);
+	}
+}
+
 function run() {
 	update();
 	draw();
@@ -99,4 +131,9 @@ function run() {
 
 load();
 draw();
-setInterval(run, 500); // Every 0.25 seconds
+intervalID = setInterval(run, 250); // Every 0.25 seconds
+pauseButton.onclick = function () { setSpeed(0); }
+speedButton1.onclick = function () { setSpeed(250); }
+speedButton2.onclick = function () { setSpeed(100); }
+speedButton3.onclick = function () { setSpeed(50); }
+resetButton.onclick = function () { load(); }
