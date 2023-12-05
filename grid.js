@@ -15,14 +15,15 @@ var height = 0;
 var cells = [];
 var nextCells = [];
 var intervalID = 0;
+var rule;
 
 function load() {
 	cells = [];
+	rule = [[offToOn.value], [onToOff.value]];
 	width = Math.floor(widthInput.value / cellSize);
 	height = Math.floor(heightInput.value / cellSize);
 	canvas.setAttribute("width", widthInput.value - widthInput.value%3);
 	canvas.setAttribute("height", heightInput.value - heightInput.value%3);
-	console.log(width);
 	for (let i = 0; i < width; i++) {
 		cells.push([]);
 		for (let j = 0; j < height; j++) {
@@ -68,7 +69,7 @@ function neighborCount(x, y, target) {
 	return total;
 }
 
-function changeState(x, y, state, rule) {
+function changeState(x, y, state) {
 	let rule0To1 = rule[0][0].split(",");
 	let rule1To0 = rule[1][0].split(",");
 	if (state == 0) {
@@ -90,7 +91,7 @@ function changeState(x, y, state, rule) {
 function update() {
 	for (let i = 0; i < width; i++) {
 		for (let j = 0; j < height; j++) {
-			nextCells[i][j] = changeState(i, j, cells[i][j], [["3"], ["0,1,4,5,6,7,8"]]);
+			nextCells[i][j] = changeState(i, j, cells[i][j]);
 		}
 	}
 
