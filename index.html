@@ -5,21 +5,29 @@
 </head>
 
 <body>
+    <a href="help.html">Help.</a>
+    <br>
     <label for="gridWidth">Grid width:</label>
     <input type="number" id="gridWidth" value="450">
     <label for="gridHeight">Grid height:</label>
     <input type="number" id="gridHeight" value="450">
+    <label for="states">Number of Cell States:</label>
+    <input type="number" id="states" value="2">
     <br>
-    <label for="offToOn">Off to On:</label>
-    <input type="text" id="offToOn" value="3">
-    <label for="onToOff">On to Off:</label>
-    <input type="text" id="onToOff" value="0,1,4,5,6,7,8">
+    <div id="ruleDiv">
+        <label for="0To1">0 to 1:</label>
+        <input type="text" id="0To1" value="3">
+        <label for="1To0">1 to 0:</label>
+        <input type="text" id="1To0" value="0-1,4-8">
+    </div>
     <br>
     <button id="pauseButton" class="symbolButton">&#x23F8;</button>
     <button id="speedButton1" class="symbolButton">&#x23F5;</button>
     <button id="speedButton2" class="symbolButton">&#x23F5;&#x23F5;</button>
     <button id="speedButton3" class="symbolButton">&#x23F5;&#x23F5;&#x23F5;</button>
     <button id="resetButton">reset</button>
+    <button id="randomizeButton">randomize</button>
+    <button id="clearButton">clear</button>
     <br>
     <canvas id="canvas" width=450 height=450></canvas>
     <script src="grid.js"></script>
